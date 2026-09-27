@@ -10,7 +10,7 @@ machine.
 as written in `prompts.md`, against the same email text in
 `test_cases.json`, and the response was recorded verbatim in
 `raw_outputs.json` before any scoring happened. Scoring (`score_results.py`)
-reads only from that recorded file — it never sees the gold labels while
+reads only from that recorded file, it never sees the gold labels while
 "generating" outputs and never adjusts an output after seeing how it would
 score. This keeps the same separation between "run" and "grade" that an
 automated harness would enforce, just without an API call in between.
@@ -22,7 +22,7 @@ to reproduce/extend this with a real endpoint.
 The rubric originally called for consistency via repeated sampling at a
 fixed temperature, which isn't possible without live API calls either.
 
-**Fix:** substituted a paraphrase-robustness test — for 3 of the 8 test
+**Fix:** substituted a paraphrase-robustness test, for 3 of the 8 test
 cases (chosen to span easy/medium/hard and to include one
 missing-field case), a second version of the email was written with the
 same facts in different words, run through all three prompts, and the
@@ -33,7 +33,7 @@ manageable (33 total: 24 primary + 9 paraphrase).
 
 ## 3. Genuinely ambiguous gold labels
 A few test cases (TC3, TC4, TC8) don't have one single "correct"
-`issue_type` — e.g. TC4 describes both a billing error and a wrong item in
+`issue_type`. eg: TC4 describes both a billing error and a wrong item in
 the same email, and a reasonable system could report either as the
 primary issue.
 
@@ -46,7 +46,7 @@ better.
 
 ## 4. Keeping the benchmark honest about what it can and can't claim
 With only 8 test cases and no live model calls, this can't claim to be a
-statistically powered benchmark — it's a small, hand-built, but real and
+statistically powered benchmark, it's a small, hand-built, but real and
 traceable comparison: every score in `results_table.md` links back to a
 specific recorded output in `raw_outputs.json` and a specific rule in
 `scoring_criteria.md`, so any score can be checked or disputed against the

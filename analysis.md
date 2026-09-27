@@ -80,7 +80,7 @@ nothing else." That's a real format-compliance failure (scored 1/2, not
 2/2) and it's a known failure mode of long, rule-dense prompts: on the
 hardest inputs, the model sometimes feels compelled to "show its work"
 even when told not to. In a production pipeline this would still need the
-same defensive stripping/parsing logic as basic or few-shot — a longer
+same defensive stripping/parsing logic as basic or few-shot, a longer
 prompt reduces how often you need it, but doesn't eliminate the need for
 it.
 

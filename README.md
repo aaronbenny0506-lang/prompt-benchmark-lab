@@ -1,7 +1,6 @@
 # Prompt Benchmark Lab
 
-Comparing three prompt strategies — basic, few-shot, and instruction-heavy
-— on the same structured-extraction task, scored against a rubric defined
+Comparing three prompt strategies, basic, few-shot, and instruction-heavy, on the same structured-extraction task, scored against a rubric defined
 before any test was run.
 
 **Task:** extract `order_number`, `product_name`, `issue_type`,
@@ -29,7 +28,7 @@ before any test was run.
 | B — Few-shot | 50 | 92.6% |
 | C — Instruction-heavy | 53 | 98.1% |
 
-See `analysis.md` for the reasoning behind the numbers — in short:
+See `analysis.md` for the reasoning behind the numbers, in short:
 basic hallucinated to fill in missing fields, few-shot generalized only to
 patterns its examples covered (and failed identically to basic outside
 them), and instruction-heavy's explicit rules were the only thing that

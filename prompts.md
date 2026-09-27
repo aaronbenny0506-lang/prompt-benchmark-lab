@@ -15,7 +15,7 @@ Target schema (identical across all three prompts):
 
 ---
 
-## Prompt A — Basic (minimal instruction)
+## Prompt A - Basic (minimal instruction)
 
 ```
 Extract the order number, product name, issue type, whether a refund was
@@ -29,7 +29,7 @@ No field definitions, no enum list, no formatting rules, no examples.
 
 ---
 
-## Prompt B — Few-shot (examples, light instruction)
+## Prompt B - Few-shot (examples, light instruction)
 
 ```
 Extract structured data from customer order-complaint emails. Return a
@@ -59,18 +59,18 @@ Output:
 ```
 
 Three examples, chosen to demonstrate: a normal case, a positive/no-issue
-case, and a missing-order-number case — but no example demonstrates
+case, and a missing-order-number case, but no example demonstrates
 sarcasm, multi-issue emails, or implicit refund requests, so those edge
 cases are unsupported by any example.
 
 ---
 
-## Prompt C — Instruction-heavy (detailed, explicit guidance)
+## Prompt C - Instruction-heavy (detailed, explicit guidance)
 
 ```
 You are a support-ticket data extraction system. Read the customer email
-below and return ONLY a single JSON object — no markdown fences, no
-commentary before or after — with exactly these five keys:
+below and return ONLY a single JSON object, no markdown fences, no
+commentary before or after, with exactly these five keys:
 
 - "order_number": the order number as a string, exactly as written
   (keep any prefix like "ORD-"). If no order number appears anywhere in
@@ -78,26 +78,26 @@ commentary before or after — with exactly these five keys:
 
 - "product_name": the specific product the complaint is about, in lowercase,
   as named in the email. If no product is explicitly named, use null. Do
-  not infer a product type from context (e.g. do not assume "phone" just
+  not infer a product type from context (eg: do not assume "phone" just
   because a "screen" is mentioned).
 
 - "issue_type": exactly one of: "damaged", "wrong_item", "late_delivery",
   "missing_item", "billing_error", "no_issue", "other".
-  - Use "no_issue" if the email contains no complaint (e.g. a thank-you
+  - Use "no_issue" if the email contains no complaint (eg: a thank-you
     or praise message).
   - If more than one issue is described, choose the issue that is stated
-    first or that the customer emphasizes most, and pick a single value —
+    first or that the customer emphasizes most and pick a single value —
     never combine categories.
 
 - "refund_requested": true or false. Set true if the customer explicitly
-  asks for a refund, their money back, or reversal of a charge — including
+  asks for a refund, their money back, or reversal of a charge, including
   indirect phrasing like "I want my money back". Set false if they ask for
   a replacement, repair, or fix, or if no request is made at all. Do not
   default to true just because the customer is upset.
 
 - "sentiment": "positive", "neutral", or "negative", based on the writer's
   actual underlying emotional state — not surface politeness or word
-  choice. Watch for sarcasm (e.g. "great, ANOTHER late delivery" is
+  choice. Watch for sarcasm (eg: "great, ANOTHER late delivery" is
   negative, not positive).
 
 Respond with the JSON object and nothing else.
@@ -106,5 +106,5 @@ Email: "{input}"
 ```
 
 Full field definitions, explicit enum list, explicit null-handling rules,
-an explicit sarcasm rule, an explicit multi-issue tie-break rule, and an
-explicit refund-inference rule — but no worked examples.
+an explicit sarcasm rule, an explicit multi-issue tie-break rule and an
+explicit refund-inference rule, but no worked examples.

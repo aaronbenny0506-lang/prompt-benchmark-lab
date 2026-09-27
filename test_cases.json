@@ -1,0 +1,106 @@
+[
+  {
+    "id": "TC1",
+    "difficulty": "easy",
+    "edge_case_note": "Product is implied ('screen cracked') but never named — tests whether the model invents a product instead of returning null.",
+    "input": "Order #48213 arrived with the screen cracked. I want a refund immediately, this is ridiculous.",
+    "gold": {
+      "order_number": "48213",
+      "product_name": null,
+      "issue_type": "damaged",
+      "refund_requested": true,
+      "sentiment": "negative"
+    }
+  },
+  {
+    "id": "TC2",
+    "difficulty": "easy",
+    "edge_case_note": "Customer asks for a replacement, not a refund — tests refund_requested=false is not defaulted to true just because the tone is a complaint.",
+    "input": "Hi, I received order 55023 but the charger cable was missing from the box. Could you please send a replacement? Thanks.",
+    "gold": {
+      "order_number": "55023",
+      "product_name": "charger cable",
+      "issue_type": "missing_item",
+      "refund_requested": false,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "id": "TC3",
+    "difficulty": "medium",
+    "edge_case_note": "No order number given at all — tests correct use of null rather than a fabricated number. issue_type is genuinely ambiguous (late_delivery vs missing_item), scored as acceptable either way.",
+    "input": "I never got my order! I ordered the blue wireless mouse two weeks ago and nothing arrived. It's been way too long.",
+    "gold": {
+      "order_number": null,
+      "product_name": "blue wireless mouse",
+      "issue_type": ["late_delivery", "missing_item"],
+      "refund_requested": false,
+      "sentiment": "negative"
+    }
+  },
+  {
+    "id": "TC4",
+    "difficulty": "hard",
+    "edge_case_note": "Two distinct issues in one email (billing + wrong item) and an order number in a non-numeric-only format ('ORD-9012'). Tests whether the model picks one defensible primary issue instead of inventing a combined/invalid category.",
+    "input": "You charged me twice for my order (ORD-9012) AND sent me the wrong color of the jacket I ordered. This is a mess, please fix both issues and refund the duplicate charge.",
+    "gold": {
+      "order_number": "ORD-9012",
+      "product_name": "jacket",
+      "issue_type": ["billing_error", "wrong_item"],
+      "refund_requested": true,
+      "sentiment": "negative"
+    }
+  },
+  {
+    "id": "TC5",
+    "difficulty": "hard",
+    "edge_case_note": "Sarcasm ('great', 'wonderful') that a surface-level reading could misclassify as positive sentiment.",
+    "input": "Oh great, ANOTHER late delivery from you guys. Order #3321 was supposed to arrive last Monday and it's still 'in transit.' Just wonderful.",
+    "gold": {
+      "order_number": "3321",
+      "product_name": null,
+      "issue_type": "late_delivery",
+      "refund_requested": false,
+      "sentiment": "negative"
+    }
+  },
+  {
+    "id": "TC6",
+    "difficulty": "medium",
+    "edge_case_note": "Trick case: there is no complaint at all. Tests whether the model hallucinates an issue_type instead of correctly returning 'no_issue'.",
+    "input": "Just wanted to say thanks for the quick shipping on order #7788! The headphones are perfect, exactly as described.",
+    "gold": {
+      "order_number": "7788",
+      "product_name": "headphones",
+      "issue_type": "no_issue",
+      "refund_requested": false,
+      "sentiment": "positive"
+    }
+  },
+  {
+    "id": "TC7",
+    "difficulty": "medium",
+    "edge_case_note": "Refund is requested implicitly ('I just want my money back') without the word 'refund' — tests whether refund_requested inference is too literal.",
+    "input": "Order 6654 \u2014 the blender motor died after one use. Honestly, at this point I just want my money back, not another defective unit.",
+    "gold": {
+      "order_number": "6654",
+      "product_name": "blender",
+      "issue_type": "damaged",
+      "refund_requested": true,
+      "sentiment": "negative"
+    }
+  },
+  {
+    "id": "TC8",
+    "difficulty": "very_hard",
+    "edge_case_note": "Slang-heavy, no order number, no explicit product name (only 'subscription renewal'), and no explicit refund ask ('sort this out' is vague). Stress-tests every field at once.",
+    "input": "yo so ur system billed me twice for the same subscription renewal this month lol not cool, can somebody sort this out?? no order number on hand rn",
+    "gold": {
+      "order_number": null,
+      "product_name": "subscription",
+      "issue_type": "billing_error",
+      "refund_requested": false,
+      "sentiment": "negative"
+    }
+  }
+]

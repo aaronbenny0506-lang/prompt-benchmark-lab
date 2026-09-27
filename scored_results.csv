@@ -1,0 +1,25 @@
+test_case,prompt,correctness,format,hallucination,consistency,subtotal_(C+F+H),note,consistency_note
+TC1,A_basic,1,2,0,1,3,Invented product_name 'phone' — never stated in the email.,product_name differed: 'phone' vs 'screen' across the two runs.
+TC1,B_fewshot,2,2,2,2,6,All fields correct; product_name correctly left null.,Identical output on both runs.
+TC1,C_instruction_heavy,2,2,2,2,6,All fields correct; explicit no-inference rule worked.,Identical output on both runs.
+TC2,A_basic,1,2,2,,5,"refund_requested=true, but customer asked for a replacement, not a refund.",
+TC2,B_fewshot,2,2,2,,6,Correctly matched the 'replacement not refund' example pattern.,
+TC2,C_instruction_heavy,2,2,2,,6,Correct; explicit refund-vs-replacement rule worked.,
+TC3,A_basic,1,2,0,0,3,Fabricated order_number '12345' though none was given anywhere in the text.,order_number differed (fabricated '12345' vs correct null) and issue_type differed.
+TC3,B_fewshot,2,2,2,2,6,order_number correctly null; issue_type='late_delivery' is an accepted alternative.,Identical output on both runs.
+TC3,C_instruction_heavy,2,2,2,2,6,order_number correctly null; issue_type='missing_item' is an accepted alternative.,Identical output on both runs.
+TC4,A_basic,0,1,2,,3,"Dropped the 'ORD-' prefix (order_number wrong) and returned a combined, invalid issue_type string.",
+TC4,B_fewshot,1,2,2,,5,"Picked a single valid issue_type, but still dropped the 'ORD-' prefix.",
+TC4,C_instruction_heavy,2,2,2,,6,Kept the 'ORD-' prefix and picked a single valid issue_type per the tie-break rule.,
+TC5,A_basic,1,2,2,2,5,Misread sarcastic 'great'/'wonderful' as positive sentiment.,Consistently (wrongly) reads the sarcasm as positive both times.
+TC5,B_fewshot,1,2,2,2,5,Same sarcasm miss as Basic — no example in the prompt covers sarcasm.,Consistently (wrongly) reads the sarcasm as positive both times.
+TC5,C_instruction_heavy,2,2,2,2,6,Correctly flagged sentiment negative per the explicit sarcasm rule.,Consistently (correctly) reads the sarcasm as negative both times.
+TC6,A_basic,1,2,1,,4,Forced issue_type='other' onto an email with no actual complaint.,
+TC6,B_fewshot,2,2,2,,6,Matched the 'no_issue' example pattern correctly.,
+TC6,C_instruction_heavy,2,2,2,,6,Correct; explicit no_issue rule worked.,
+TC7,A_basic,1,2,2,,5,Missed the implicit refund request ('I just want my money back').,
+TC7,B_fewshot,1,2,2,,5,Same implicit-refund miss — no example covers indirect refund phrasing.,
+TC7,C_instruction_heavy,2,2,2,,6,Correctly caught the indirect refund phrase per the explicit rule.,
+TC8,A_basic,0,1,2,,3,Wrapped output in a ```json fence; also missed product_name ('subscription' is explicitly stated) and wrongly set refund_requested=true.,
+TC8,B_fewshot,1,2,2,,5,"Got product_name right, but still wrongly set refund_requested=true — 'sort this out' isn't an explicit refund ask.",
+TC8,C_instruction_heavy,2,1,2,,5,"All fields correct, but added a one-line explanation before the JSON despite 'respond with JSON and nothing else'.",
